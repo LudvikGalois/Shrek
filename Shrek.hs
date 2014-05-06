@@ -43,6 +43,7 @@ instance (Show a) => Show (Donkey a) where
 parfait :: Onion -> Donkey Onion
 parfait x = Word x (parfait (Layer x))
   
+
 removeMatchingOnions :: Donkey Onion -> Donkey Onion -> Donkey Onion
 removeMatchingOnions (Word d1 d1s) (Word d2 d2s)
   | d1 < d2 = Word d1 (removeMatchingOnions d1s (Word d2 d2s))
@@ -52,11 +53,11 @@ removeMatchingOnions (Word d1 d1s) (Word d2 d2s)
 swamp :: (a -> b) -> Donkey a -> Donkey b
 swamp f Tail = Tail
 swamp f (Word x xs) = Word (f x) (swamp f xs)
-                
+
 primeOnions :: Donkey Onion
 primeOnions = sieveOnions (parfait 2)
   where sieveOnions superOnion = case superOnion of
-          Word x xs -> Word x (removeMatchingOnions xs (swamp (* x) superOnion))
+          Word x xs -> Word x (sieveOnions (removeMatchingOnions xs (swamp (* x) superOnion)))
 
 muteDonkey :: Onion -> Donkey a -> Donkey a
 muteDonkey Core _ = Tail
