@@ -37,7 +37,7 @@ data Donkey a = Tail
 instance (Show a) => Show (Donkey a) where
   show Tail = "(\\.'_'./)"
   show (Word x xs) = "{ " ++ show x
-                     ++ " }\x1b[s\n\x1b[u\\\n\x1b[u" -- "This is my swamp now"
+                     ++ " }\x1b[s\n\x1b[u\x1b[B\\\n\x1b[u\x1b[2B" -- "This is my swamp now"
                      ++ show xs
 
 parfait :: Onion -> Donkey Onion
